@@ -1,12 +1,19 @@
-import { createStore } from 'vuex'
+import { IHomeState } from "@/typings/home";
+import { createStore } from "vuex";
+import home from "./modules/home";
 
-export default createStore({
-  state: {
-  },
-  mutations: {
-  },
-  actions: {
-  },
-  modules: {
-  }
-})
+export interface IGlobalState {
+    home: IHomeState;
+}
+
+let store = createStore<IGlobalState>({
+    // state: {
+    // },
+    mutations: {},
+    actions: {},
+    modules: {
+        home,
+    },
+});
+
+export default store;
