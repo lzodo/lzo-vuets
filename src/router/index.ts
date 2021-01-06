@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
+// createWebHashHistory hash路由
 import Home from "../views/home/index.vue";
 
 const routes: Array<RouteRecordRaw> = [
@@ -23,6 +24,12 @@ const routes: Array<RouteRecordRaw> = [
             import(
                 /* webpackChunkName: "profile" */ "../views/profile/index.vue"
             ),
+    },
+    {
+        path: "/test",
+        name: "Test",
+        component: () =>
+            import(/* webpackChunkName: "test" */ "../views/test/list.vue"),
     },
 ];
 

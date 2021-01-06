@@ -19,11 +19,6 @@ export default defineComponent({
         category: Number as PropType<CATEGORY_TYPES>, //PropType vue内置的不然组件里的category会推导成number
     },
     emits: ["setCurrentCategory"], // 提示作用，提示可以触发父级的方法
-    // methods: {
-    //     change(e: CATEGORY_TYPES) {
-    //         console.log(e);
-    //     },
-    // },
     setup(props, context) {
         // context.emit("setCurrentCategory")
         // reactive vue3的响应数据
