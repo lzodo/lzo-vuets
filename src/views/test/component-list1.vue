@@ -14,10 +14,19 @@ import { CATEGORY_TYPES } from "@/typings/home";
 import {
     computed,
     defineComponent,
+    onActivated,
+    onDeactivated,
+    onErrorCaptured,
+    onMounted,
+    onRenderTracked,
+    onRenderTriggered,
+    onUnmounted,
+    onUpdated,
     PropType,
     reactive,
     readonly,
     ref,
+    toRaw,
     toRefs,
     watch,
     watchEffect,
@@ -49,11 +58,14 @@ export default defineComponent({
             addcount: 0,
         });
 
+        //将响应式数据转原始数据
+        let oldstate = toRaw(state1)
+
         //监听
         //立即传入一个函数,并响应式追踪内部用到的属性，属性变化运行该函数
         watchEffect(() => {
-            console.log(props.name);
-            console.log(props.title);
+            // console.log(props.name);
+            // console.log(props.title);
         });
         //watch 和2.0一样 监听数据源，并在监听源变更时才会处理指定回调
         watch(
@@ -84,6 +96,37 @@ export default defineComponent({
         let ratio2 = computed({
             get: () => {},
             set: () => {},
+        });
+
+        //生命周期函数
+        //与2.0对应 但是setup() 取代created、beforeCreate
+        onMounted(() => {
+            //onBeforeMount
+            console.log("组件挂载成功");
+        });
+        onUpdated(() => {
+            //onBeforeUpdate
+            console.log("检测到有响应式数据变化,组件更新成功");
+        });
+        onUnmounted(() => {
+            //onBeforeUnmount
+            console.log("组件卸载成功");
+        });
+        onActivated(() => { 
+            //keep-alive 包裹组件才会触发
+            console.log("激活成功");
+        });
+        onDeactivated(() => {
+            console.log("切换，转未激活成功");
+        });
+        onErrorCaptured(() => {});
+        //新增调试钩子
+        onRenderTracked((e) =>{
+            //  debugger
+            //console.log(e);
+        });
+        onRenderTriggered((e) =>{
+            //console.log(e);
         });
 
         // return里的变量和方法可以直接在模板中使用
