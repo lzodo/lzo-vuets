@@ -32,7 +32,6 @@ import {
     watch,
     watchEffect,
 } from "vue"; //vue自动不通过插件实现自动提示
-
 export default defineComponent({
     props: {
         category: Number as PropType<CATEGORY_TYPES>, //PropType vue内置的不然组件里的category会推导成number
@@ -44,24 +43,19 @@ export default defineComponent({
     setup(props, context) {
         // props：基于Proxy代理的响应数据
         console.log(props);
-
         //响应式数据变化才会更新视图let直接定义的是不会更新的
         //构建响应式数据方法ref()
         //reactive构建,基于proxy对数据进行深度监听
-
         let state = ref({
             removecount: 0,
             addcount: 0,
         });
-
         let state1 = reactive({
             removecount: 0,
             addcount: 0,
         });
-
         //将响应式数据转原始数据
-        let oldstate = toRaw(state1)
-
+        let oldstate = toRaw(state1);
         //监听
         //立即传入一个函数,并响应式追踪内部用到的属性，属性变化运行该函数
         watchEffect(() => {
@@ -75,30 +69,24 @@ export default defineComponent({
                 console.log(x, oldx);
             }
         );
-
         function changecount(num: any) {
             num == 0 ? state.value.removecount++ : state.value.addcount++;
             num == 0 ? state1.removecount++ : state1.addcount++;
         }
-
         //将reactive每一项变为ref响应式数据
         toRefs(state1);
-
         //拿到state1响应数据，可读但是不能修改
         let stateOnly = readonly(state1);
-
         //计算属性,传入getter函数，返回默认不能手动修改的ref对象
         //!根据监听依赖的改变，自动计算出需要的值
         let ratio = computed(() => {
             let totle = state1.addcount - state1.removecount;
             return totle;
         });
-
         let ratio2 = computed({
             get: () => {},
             set: () => {},
         });
-
         //生命周期函数
         //与2.0对应 但是setup() 取代created、beforeCreate
         onMounted(() => {
@@ -113,7 +101,7 @@ export default defineComponent({
             //onBeforeUnmount
             console.log("组件卸载成功");
         });
-        onActivated(() => { 
+        onActivated(() => {
             //keep-alive 包裹组件才会触发
             console.log("激活成功");
         });
@@ -122,14 +110,13 @@ export default defineComponent({
         });
         onErrorCaptured(() => {});
         //新增调试钩子
-        onRenderTracked((e) =>{
+        onRenderTracked((e) => {
             //  debugger
             //console.log(e);
         });
-        onRenderTriggered((e) =>{
+        onRenderTriggered((e) => {
             //console.log(e);
         });
-
         // return里的变量和方法可以直接在模板中使用
         return {
             state,
