@@ -16,6 +16,9 @@ export default defineComponent({
         name: String,
     },
     inject: ["forr"], //2.0用法
+    mounted(){
+
+    },
     setup(props, context) {
         const root = ref(null);
 

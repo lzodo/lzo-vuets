@@ -23,6 +23,7 @@ import {
     onUnmounted,
     onUpdated,
     PropType,
+    provide,
     reactive,
     readonly,
     ref,

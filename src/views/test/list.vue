@@ -26,9 +26,10 @@ export default defineComponent({
         setTimeout(() => {
             this.title = "字符串标题更新";
         }, 2000);
+        console.log(this)
     },
-    provide:{
-        forre:'dfafdafdasd'
+    provide: {
+        forre: "dfafdafdasd",
     },
     setup() {
         //!数据传递方式二:依赖注入子组件通过inject获取数据
@@ -39,6 +40,7 @@ export default defineComponent({
                 b: 20,
             })
         );
+        
     },
 });
 </script>
