@@ -27,7 +27,7 @@ export default defineComponent({
     mounted() {
         console.log("挂载dom成功");
         console.log(this.name);
-        console.log(this.provide_data);
+        // console.log(this.provide_data);
         setTimeout(() => {
             emitter.emit("EVENTTYPE", "mitt触发成功ss");
         }, 2000);

@@ -39,7 +39,7 @@ for (let i = 0; i < 26; i++) {
         video: Random.url(),
         poster: Random.dataImage("100x100", Random.csentence(2, 4)),
         price: Random.natural(1, 10),
-        category: Random.integer(0, 3),
+        category: Random.integer(1, 3),
         // Boolean: Random.boolean, // 可以生成基本数据类型
         // Natural: Random.natural(1, 10), // 生成1到100之间自然数
         // Integer: Random.integer(1, 100), // 生成1到100之间的整数
@@ -66,7 +66,7 @@ Mock.mock("http://localhost:8080/lesson/list", "post", (params: any) => {
     let [offset, limit, total] = [info.offset, info.limit, dataList.length];
     let newDataList = dataList.slice(offset, offset + limit);
     let hasMore = true;
-    if (offset + limit  >= total) {
+    if (offset + limit >= total) {
         hasMore = false;
     }
 

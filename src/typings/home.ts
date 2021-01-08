@@ -15,6 +15,8 @@ export interface ISliders {
     url: string;
 }
 export interface ILessons {
+    // [x: string]: number;
+    // length: number;
     hasMore: boolean;
     loading: boolean;
     offset: number;

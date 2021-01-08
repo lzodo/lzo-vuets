@@ -10,8 +10,12 @@
             <van-tabbar-item icon="friends-o" to="/profile"
                 >我的</van-tabbar-item
             >
-            <van-tabbar-item icon="bookmark-o" to="/compositionapi">3.x</van-tabbar-item>
-            <van-tabbar-item icon="label-o" to="/optionapi">2.x</van-tabbar-item>
+            <van-tabbar-item icon="bookmark-o" to="/compositionapi"
+                >3.x</van-tabbar-item
+            >
+            <van-tabbar-item icon="label-o" to="/optionapi"
+                >2.x</van-tabbar-item
+            >
         </van-tabbar>
     </div>
 </template>
