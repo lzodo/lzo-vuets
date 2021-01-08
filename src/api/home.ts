@@ -21,7 +21,6 @@ export function getLessons<T>(
     offset: number = 0,
     limit: number = 5
 ) {
-    console.log('to getLessons')
     return axios.post<T, T>(
         `/lesson/list`,{category:category,offset:offset,limit:limit}
     );

@@ -32,7 +32,7 @@ export default defineComponent({
         forre: "dfafdafdasd",
     },
     setup() {
-        //数据传递方式二:依赖注入子组件通过inject获取数据
+        //!数据传递方式二:依赖注入子组件通过inject获取数据
         provide(
             "data",
             reactive({
