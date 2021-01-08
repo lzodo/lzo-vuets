@@ -8,16 +8,12 @@
 <script lang="ts">
 import { CATEGORY_TYPES } from "@/typings/home";
 import { computed, defineComponent, getCurrentInstance, inject, onMounted, PropType, reactive, readonly, ref, toRefs, unref, watch, watchEffect } from "vue"; //vue自动不通过插件实现自动提示
-const ThemeSymbol = Symbol();
+
 export default defineComponent({
     props: {
         category: Number as PropType<CATEGORY_TYPES>, //PropType vue内置的不然组件里的category会推导成number
         title: String,
         name: String,
-    },
-    inject: ["forr"], //2.0用法
-    mounted(){
-
     },
     setup(props, context) {
         const root = ref(null);

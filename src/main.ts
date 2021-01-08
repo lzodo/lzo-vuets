@@ -8,8 +8,11 @@ import "vant/lib/index.css";
 
 import "./mock";
 
-createApp(App)
-    .use(Vant)
+const app = createApp(App);
+
+app.use(Vant)
     .use(store)
     .use(router)
     .mount("#app");
+
+

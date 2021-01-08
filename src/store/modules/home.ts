@@ -30,6 +30,7 @@ const home: Module<IHomeState, IGlobalState> = {
             commit(Types.SET_SLIDER_LIST, sliders);
         },
         async [Types.SET_LESSON_LIST]({ commit }) {
+            console.log(state)
             if (state.lessons.loading) {
                 //如果正在加载 直接结束
                 return;
@@ -46,9 +47,12 @@ const home: Module<IHomeState, IGlobalState> = {
                 state.lessons.limit
             );
             commit(Types.SET_LESSON_LIST, lessins);
-            commit(Types.SET_LOADING, true); //加载完成
+            commit(Types.SET_LOADING, false); //加载完成
         },
     },
+    //@ mutation 必须是同步的
+    //@ 只有mutation才能正真改变VUEX stroe中的state
+    //@ Action可以异步提交 Action 提交的是 mutation，而不是直接变更状态。
     mutations: {
         [Types.SET_CATEGORY](state, payload: CATEGORY_TYPES) {
             //home状态 ,新的payload数据要 CATEGORY_TYPES 中存在的
@@ -60,12 +64,14 @@ const home: Module<IHomeState, IGlobalState> = {
             console.log(state.sliders);
         },
         [Types.SET_LOADING](state, payload: Boolean) {
-            state.lessons.loading = true;
+            state.lessons.loading = !!payload;
         },
         [Types.SET_LESSON_LIST](state, payload: ILessons) {
+            console.log(payload)
             state.lessons.list = [...state.lessons.list, ...payload.list];
             state.lessons.hasMore = payload.hasMore;
             state.lessons.offset = state.lessons.offset + payload.list.length;
+            console.log(state.lessons,state.lessons.hasMore,state.lessons.offset)
         },
     },
 };

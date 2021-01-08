@@ -1,9 +1,6 @@
 <template>
     <div class="warp">
-        <HomeHeader
-            :category="category"
-            @setCurrentCategory="setCurrentCategory"
-        ></HomeHeader>
+        <HomeHeader :category="category" @setCurrentCategory="setCurrentCategory"></HomeHeader>
         <Suspense>
             <template #default>
                 <HomeSwiper></HomeSwiper>
@@ -12,7 +9,8 @@
                 <div>loading...</div>
             </template>
         </Suspense>
-        <HomeList></HomeList>
+        <HomeList :lessionList="lessionList"></HomeList>
+        <button @click="getScrolllist">scroll</button>
     </div>
 </template>
 
@@ -46,7 +44,7 @@ function useLissionList(store: Store<IGlobalState>) {
     const lessionList = computed(() => store.state.home.lessons);
 
     onMounted(() => {
-        if (lessionList.value.list.length > 0) {
+        if (lessionList.value.list.length == 0) {
             store.dispatch(`home/${Types.SET_LESSON_LIST}`);
         }
     });
@@ -74,10 +72,20 @@ export default defineComponent({
         //获取列表
         let { lessionList } = useLissionList(store);
 
+        console.log(lessionList.value);
+
+        function getScrolllist() {
+            store.dispatch(`home/${Types.SET_LESSON_LIST}`);
+        }
+
+        console.log(lessionList.value)
+        console.log('lessionList=======================================')
+
         return {
             category,
             setCurrentCategory,
             lessionList,
+            getScrolllist,
         };
     },
 });

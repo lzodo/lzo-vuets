@@ -19,17 +19,23 @@ const routes: Array<RouteRecordRaw> = [
     },
     {
         path: "/profile",
-        name: "Profile",
+        name: "profile",
         component: () =>
             import(
                 /* webpackChunkName: "profile" */ "../views/profile/index.vue"
             ),
     },
     {
-        path: "/test",
-        name: "Test",
+        path: "/compositionapi",
+        name: "compositionapi",
         component: () =>
-            import(/* webpackChunkName: "test" */ "../views/test/list.vue"),
+            import(/* webpackChunkName: "compositionapi" */ "../views/z_composition-api/list.vue"),
+    },
+    {
+        path: "/optionapi",
+        name: "optionapi",
+        component: () =>
+            import(/* webpackChunkName: "compositionapi" */ "../views/z_options_api/list.vue"),
     },
 ];
 

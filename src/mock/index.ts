@@ -10,8 +10,7 @@ console.log(Mock);
 
 //Mock构造数据
 var Random = Mock.Random; //占位符生成随机数
-//@符号只能在Mock.mock中使用
-//Random的自定义随机数
+
 Random.extend({
     selfrandom: function(data) {
         let selfrandoms = ["str1", "str3"];
@@ -20,22 +19,69 @@ Random.extend({
 });
 
 Mock.mock("http://localhost:8080/slide/list", "get", {
-    status: 200,
+    status: 0,
     message: "获取成功",
     "data|5-10": [
         {
             url: Random.dataImage("300x100", Random.csentence(2, 8)),
-            // //生成5到10条
-            // "id0|+1": 0, //id自增
-            // step1: Random.increment(2), //生成值步长2
-            // step2: "@increment(2)",
-            // text2: Random.csentence(2, 8), //生成2到8个文字
-            // text1: "@csentence(2,8)",
-            // img1: Random.dataImage("50x50", "text 图片文字"), //生成图片
-            // img2: '@dataImage("50x50")',
-            // self: "@selfrandom",
         },
     ],
+});
+
+const dataList: any = []; // 用于接受生成数据的数组
+
+for (let i = 0; i < 26; i++) {
+    // 可自定义生成的个数
+
+    const template = {
+        id: i,
+        title: Random.csentence(2, 8),
+        video: Random.url(),
+        poster: Random.dataImage("100x100", Random.csentence(2, 4)),
+        price: Random.natural(1, 10),
+        category: Random.integer(0, 3),
+        // Boolean: Random.boolean, // 可以生成基本数据类型
+        // Natural: Random.natural(1, 10), // 生成1到100之间自然数
+        // Integer: Random.integer(1, 100), // 生成1到100之间的整数
+        // Float: Random.float(0, 100, 0, 5), // 生成0到100之间的浮点数,小数点后尾数为0到5位
+        // Character: Random.character(), // 生成随机字符串,可加参数定义规则
+        // String: Random.string(2, 10), // 生成2到10个字符之间的字符串
+        // Range: Random.range(0, 10, 2), // 生成一个随机数组
+        // Date: Random.date(), // 生成一个随机日期,可加参数定义日期格式
+        // Image: Random.dataImage("100x100", Random.csentence(2, 8)), // Random.size表示将从size数据中任选一个数据
+        // Color: Random.color(), // 生成一个颜色随机值
+        // Paragraph: Random.paragraph(2, 5), // 生成2至5个句子的文本
+        // Name: Random.name(), // 生成姓名
+        // Url: Random.url(), // 生成web地址
+        // Address: Random.province(), // 生成地址
+    };
+
+    dataList.push(template);
+}
+
+// list 分页接口()
+
+Mock.mock("http://localhost:8080/lesson/list", "post", (params: any) => {
+    let info = JSON.parse(params.body);
+    let [offset, limit, total] = [info.offset, info.limit, dataList.length];
+    let newDataList = dataList.slice(offset, offset + limit);
+    let hasMore = true;
+    if (offset + limit  >= total) {
+        hasMore = false;
+    }
+
+    return {
+        status: 0,
+        message: "success",
+        data: {
+            offset: offset,
+            pageSize: limit,
+            list: newDataList,
+            total: total,
+            hasMore: hasMore,
+            totalPages: newDataList.length,
+        },
+    };
 });
 
 Mock.mock("/api/mockpost", "post", function(option: any) {

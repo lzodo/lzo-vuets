@@ -7,12 +7,22 @@ export function getSliders<T>() {
 }
 
 //获取列表
+// export function getLessons<T>(
+//     category: CATEGORY_TYPES,
+//     offset: number = 0,
+//     limit: number = 5
+// ) {
+//     return axios.get<T, T>(
+//         `/lesson/list?category=${category}&offset=${offset}&limit=${limit}`
+//     );
+// }
 export function getLessons<T>(
     category: CATEGORY_TYPES,
     offset: number = 0,
     limit: number = 5
 ) {
-    return axios.get<T, T>(
-        `/lesson/list?category=${category}&offset=${offset}&limit=${limit}`
+    console.log('to getLessons')
+    return axios.post<T, T>(
+        `/lesson/list`,{category:category,offset:offset,limit:limit}
     );
 }

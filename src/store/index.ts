@@ -9,7 +9,11 @@ export interface IGlobalState {
 let store = createStore<IGlobalState>({
     // state: {
     // },
-    mutations: {},
+    mutations: {
+        increment(state,payload){
+            console.log('payload:'+payload)
+        }
+    },
     actions: {},
     modules: {
         home,
