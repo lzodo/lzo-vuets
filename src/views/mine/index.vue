@@ -1,5 +1,7 @@
 <template>
-    <div class="mine">mine</div>
+    <div class="mine">
+        <img src='https://gitee.com/liaozhongxun/lzo-static/blob/master/image/banner1.jpg' />
+    </div>
 </template>
 
 <script lang="ts">

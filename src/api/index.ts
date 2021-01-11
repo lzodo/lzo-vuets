@@ -5,6 +5,7 @@ axios.defaults.baseURL = `http://localhost:8080`;
 
 //请求拦截
 axios.interceptors.request.use((config: AxiosRequestConfig) => {
+    config.headers["x-auth-token"]="token"
     return config;
 });
 

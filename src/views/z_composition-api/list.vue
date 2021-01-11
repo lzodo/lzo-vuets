@@ -29,7 +29,7 @@ export default defineComponent({
         console.log(this)
     },
     provide: {
-        forre: "dfafdafdasd",
+        forre: "provide",
     },
     setup() {
         //!数据传递方式二:依赖注入子组件通过inject获取数据
