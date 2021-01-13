@@ -18,7 +18,7 @@ Random.extend({
     },
 });
 
-Mock.mock("http://localhost:8080/slide/list", "get", {
+Mock.mock("http://localhost:3003/home/slide/list", "get", {
     status: 0,
     message: "获取成功",
     "data|5-10": [
@@ -61,7 +61,7 @@ for (let i = 0; i < 26; i++) {
 
 // list 分页接口()
 
-Mock.mock("http://localhost:8080/lesson/list", "post", (params: any) => {
+Mock.mock("http://localhost:3003/home/lesson/list", "post", (params: any) => {
     let info = JSON.parse(params.body);
     let [offset, limit, total] = [info.offset, info.limit, dataList.length];
     let newDataList = dataList.slice(offset, offset + limit);

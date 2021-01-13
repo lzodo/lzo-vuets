@@ -1,7 +1,7 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
 
 //配置基础路径
-axios.defaults.baseURL = `http://localhost:8080`;
+axios.defaults.baseURL = `http://localhost:3003`;
 
 //请求拦截
 axios.interceptors.request.use((config: AxiosRequestConfig) => {

@@ -3,7 +3,7 @@ import axios from ".";
 
 //获取轮播图接口
 export function getSliders<T>() {
-    return axios.get<T, T>("/slide/list");
+    return axios.get<T, T>("/home/slide/list");
 }
 
 //获取列表
@@ -22,6 +22,6 @@ export function getLessons<T>(
     limit: number = 5
 ) {
     return axios.post<T, T>(
-        `/lesson/list`,{category:category,offset:offset,limit:limit}
+        `/home/lesson/list`,{category:category,offset:offset,limit:limit}
     );
 }

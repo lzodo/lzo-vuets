@@ -2,6 +2,10 @@ const { static } = require("express");
 const express = require("express");
 const path = require("path");
 const app = express();
+var  cors = require( 'cors' ); 
+app.use(cors()); 
+
+global.Rbp = "https://lzo-gitee.gitee.io/gitee-static";
 
 app.use("/",express.static(path.join(__dirname,'./www')))
 
@@ -11,8 +15,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 
-let mainRouter = require('./router/mainRouter')
-app.use('/main',mainRouter)
+let mainRouter = require('./router/homeRouter')
+app.use('/home',mainRouter)
 
 
 
