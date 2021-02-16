@@ -1,6 +1,6 @@
 <template>
     <div class="mine">
-        <img src='https://gitee.com/liaozhongxun/lzo-static/blob/master/image/banner1.jpg' />
+        
     </div>
 </template>
 
