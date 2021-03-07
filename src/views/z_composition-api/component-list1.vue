@@ -77,6 +77,7 @@ export default defineComponent({
         toRefs(state1);
         //拿到state1响应数据，可读但是不能修改
         let stateOnly = readonly(state1);
+
         //计算属性,传入getter函数，返回默认不能手动修改的ref对象
         //!根据监听依赖的改变，自动计算出需要的值
         let ratio = computed(() => {
