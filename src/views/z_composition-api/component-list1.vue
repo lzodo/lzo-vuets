@@ -15,6 +15,9 @@ import {
     computed,
     defineComponent,
     onActivated,
+    onBeforeMount,
+    onBeforeUnmount,
+    onBeforeUpdate,
     onDeactivated,
     onErrorCaptured,
     onMounted,
@@ -67,6 +70,11 @@ export default defineComponent({
             () => state1.addcount, //监听reactive单个
             (x, oldx) => {
                 console.log(x, oldx);
+                console.log("=================");
+            },
+            {
+                immediate: true, //首次可以触发
+                deep: true, //深度监视
             }
         );
         function changecount(num: any) {
@@ -90,34 +98,41 @@ export default defineComponent({
         });
         //生命周期函数
         //与2.0对应 但是setup() 取代created、beforeCreate
+        onBeforeMount(() => {
+            console.log("3.0 中的 onBeforeMount 组件挂载前");
+        });
+
         onMounted(() => {
-            //onBeforeMount
-            console.log("组件挂载成功");
+            console.log("3.0 中的 onMounted 组件挂载");
+        });
+
+        onBeforeUpdate(() => {
+            console.log("3.0 中的 onBeforeUpdate 数据更新前");
         });
         onUpdated(() => {
-            //onBeforeUpdate
-            console.log("检测到有响应式数据变化,组件更新成功");
+            console.log("3.0 中的 onUpdated 数据更新");
+        });
+
+        onBeforeUnmount(() => {
+            console.log("3.0 中的 onBeforeUnmount 卸载前");
         });
         onUnmounted(() => {
-            //onBeforeUnmount
-            console.log("组件卸载成功");
+            //将2.x的destroy 改为Unmount，destroy方式无法使用了
+            console.log("3.0 中的 onUnmounted 卸载");
         });
         onActivated(() => {
-            //keep-alive 包裹组件才会触发
-            console.log("激活成功");
+            //keep-alive 回到页面包裹组件才会触发
+            console.log("3.0 中的 onActivated 激活");
         });
         onDeactivated(() => {
-            console.log("切换，转未激活成功");
+            console.log("3.0 中的 onDeactivated 到未激活");
         });
+
         onErrorCaptured(() => {});
         //新增调试钩子
-        onRenderTracked((e) => {
-            //  debugger
-            //console.log(e);
-        });
-        onRenderTriggered((e) => {
-            //console.log(e);
-        });
+        onRenderTracked((e) => {});
+        onRenderTriggered((e) => {});
+
         // return里的变量和方法可以直接在模板中使用
         return {
             state,

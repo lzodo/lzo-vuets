@@ -31,7 +31,7 @@ export default defineComponent({
     /**
      *
      *  setup 细节
-     *     setup是在beforeCreate 生命周期之前执行的，只执行一次
+     *     setup是在2.0 beforeCreate 生命周期之前执行的，只执行一次
      *     setup中无this
      *
      *     setup的返回值是一个对象，内部的属性方法是给HTML模板使用的
@@ -55,7 +55,7 @@ export default defineComponent({
      *          一般用来处理对象（递归深度响应式）
      *          reactive内部:通过Proxy实现数据劫持，并通过Reflect操作对象
      *
-     *
+     * watch 与 watchEfface
      *
      */
     setup(props, context) {
