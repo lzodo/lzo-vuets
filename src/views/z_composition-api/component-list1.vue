@@ -30,6 +30,7 @@ import {
     reactive,
     readonly,
     ref,
+    shallowReadonly,
     toRaw,
     toRefs,
     watch,
@@ -83,8 +84,10 @@ export default defineComponent({
         }
         //将reactive每一项变为ref响应式数据
         toRefs(state1);
-        //拿到state1响应数据，可读但是不能修改
+        //拿到state1响应数据，深度只读，可读但是不能修改
         let stateOnly = readonly(state1);
+        //拿到state1响应数据，第一层只读，深层可修改
+        let stateOnly2 = shallowReadonly(state1);
 
         //计算属性,传入getter函数，返回默认不能手动修改的ref对象
         //!根据监听依赖的改变，自动计算出需要的值

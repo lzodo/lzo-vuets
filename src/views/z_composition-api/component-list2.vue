@@ -17,6 +17,7 @@ import {
     reactive,
     readonly,
     ref,
+    toRef,
     toRefs,
     unref,
     watch,
@@ -55,7 +56,13 @@ export default defineComponent({
      *          一般用来处理对象（递归深度响应式）
      *          reactive内部:通过Proxy实现数据劫持，并通过Reflect操作对象
      *
-     * watch 与 watchEfface
+     *  toRef的使用及特点:
+     *      1、
+     *
+     *  watch 与 watchEfface
+     *  shallowReactive 与 shallowRef，浅响应式,只有第一层数据能动态更新
+     *  markRow: state.like = mardRow('xxxx'); 响应式对象其他属性不影响，但是like属性不能修改
+     *  toRow: toRow(state); 将响应式对象转普通对象
      *
      */
     setup(props, context) {
@@ -64,6 +71,15 @@ export default defineComponent({
         console.log(context.attrs);
         console.log(context);
         console.log("=================");
+        let toRefState = reactive({
+            prop1: "1",
+            prop2: "2",
+        });
+        //将toRefState的某个属性变成ref对象，getProp1与toRefState相互影响
+        let getProp1 = toRef(toRefState, "prop1");
+        //将toRefState的某个属性变成ref对象，getProp2与toRefState不会相互影响
+        let getProp2 = ref(toRefState.prop2);
+
         const root = ref(null);
 
         onMounted(() => {
