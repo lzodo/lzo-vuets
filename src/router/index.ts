@@ -37,8 +37,14 @@ const routes: Array<RouteRecordRaw> = [
         component: () =>
             import(/* webpackChunkName: "compositionapi" */ "../views/z_options_api/list.vue"),
     },
-];
 
+    //扩展
+    {
+        path:"/path1",
+        redirect:"/mine",//重定向到指定路径
+    },
+];
+console.log(process.env) 
 const router = createRouter({
     history: createWebHistory(process.env.BASE_URL),
     routes,
