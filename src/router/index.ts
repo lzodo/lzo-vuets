@@ -2,6 +2,16 @@ import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 // createWebHashHistory hash路由
 import Home from "../views/home/index.vue";
 
+/**
+ * 懒加载的方式
+ */
+//法一
+let Path3 = () => import("../views/mine/index.vue")
+//法二
+let Path2 = (resolve: (...modules: any[]) => void) => require(["../views/mine/index.vue"],resolve)
+//法三
+//xxx
+
 const routes: Array<RouteRecordRaw> = [
     {
         path: "/",
@@ -43,9 +53,16 @@ const routes: Array<RouteRecordRaw> = [
         path:"/path1",
         redirect:"/mine",//重定向到指定路径
     },
+    {
+        //动态路由，跳转的时候/user/后面随机添加的id不会影响路径
+        //新页面中{{$route.params.userId}} 获取   
+        //这个$route计算页面中处于活跃的路由信息，就是这边每一个大括号，用于页面中获取数据
+        path:"/user/:userId",
+        component:Home,
+    }
 ];
 console.log(process.env) 
-const router = createRouter({
+const router = createRouter({ //router 就是将来 this.$router.push()的$router
     history: createWebHistory(process.env.BASE_URL),
     routes,
 });
