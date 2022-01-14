@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link
+            href="http://imgcache.qq.com/open/qcloud/video/tcplayer/tcplayer.css"
+            rel="stylesheet"
+        />
+        <script src="http://imgcache.qq.com/open/qcloud/video/tcplayer/lib/hls.min.0.8.8.js"></script>
+        <script src="http://imgcache.qq.com/open/qcloud/video/tcplayer/tcplayer.min.js"></script>
+        <script src="http://libs.baidu.com/jquery/2.1.4/jquery.min.js"></script>
+        <title>Document</title>
+        <style type="text/css">
+            * {
+                margin: 0;
+                padding: 0;
+            }
+            html,
+            body {
+                width: 100%;
+                height: 100%;
+            }
+            .video-wrapper {
+                position: relative;
+                width: 640px;
+                height: 500px;
+                margin: auto;
+            }
+            #canvasBarrage {
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                z-index: 2147483647;
+                pointer-events: none;
+            }
+            #videoBarrage {
+                position: absolute;
+                background-color: black;
+                width: 100%;
+                height: 100%;
+                outline: 1px solid #eee;
+            }
+            @keyframes bgColor {
+                25% {
+                    background-color: darkred;
+                }
+                50% {
+                    background-color: darkgreen;
+                }
+                100% {
+                    background-color: darkblue;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div id="con" class="video-wrapper">
+            <canvas id="canvasBarrage"></canvas>
+            <video id="videoBarrage" preload="auto"></video>
+        </div>
+        <input id="input" name="value" required />
+        <button id="submit" disabled>发送弹幕</button>
+        <button id="full">全屏</button>
+    </body>
+
+    <script>
+        var canvasBarrage = function(canvas, data) {
+            var currentTime; //放在最前面定义视频时长变化赋值,这个是获取我视频播放的秒数
+            var video = document.getElementById("videoBarrage");
+            if (!canvas || !data || !data.length) {
+                return;
+            }
+            if (typeof canvas == "string") {
+                canvas = document.querySelector(canvas);
+                canvasBarrage(canvas, data);
+                return;
+            }
+            var context = canvas.getContext("2d");
+            canvas.width = canvas.clientWidth;
+            canvas.height = canvas.clientHeight;
+            function Barrage(obj, index) {
+                // 随机x坐标也就是横坐标，对于y纵坐标，以及变化量speed
+                this.x = canvas.width;
+                this.y = canvas.height * Math.random();
+                this.speed = 2;
+                this.isShow = true;
+                this.opacity = 0.8;
+                this.text = obj.value || "";
+                this.time = obj.time;
+                this.color = obj.color || "red";
+                this.fontSize = obj.fontSize;
+                console.log(this.fontSize);
+            }
+            Barrage.prototype.draw = function() {
+                var text = this.text; // 根据此时x位置绘制文本
+                context.strokeStyle = this.color;
+                context.font =
+                    "bold  " +
+                    this.fontSize +
+                    'px "microsoft yahei", sans-serif';
+                context.fillStyle = "rgba(255,255,255, " + this.opacity + "})";
+                context.fillText(text, this.x, this.y);
+                context.strokeText(text, this.x, this.y);
+            };
+            var store = {};
+            data.forEach((item, i) => {
+                store[i] = new Barrage(item, i);
+            }); // 绘制弹幕文本
+            var drawAll = function() {
+                for (var i in store) {
+                    var barrage = store[i];
+                    if (currentTime > barrage.time && barrage.isShow) {
+                        barrage.x -= barrage.speed;
+                        store[i].draw();
+                    }
+                }
+            }; //这个是我使用了第三方技术腾讯云点播时要创建的video对象,不用使用，如果你只想用video标签实现本地播放,下面的播放器事件替换成你的video播放器事件就好了,例如<video>标签的播放暂停事件等.
+            var player = TCPlayer("videoBarrage", {
+                // player-container-id 为播放器容器ID，必须与html中一致
+                fileID: "秘密哦", // 请传入需要播放的视频filID 必须
+                appID: "秘密哦", // 请传入点播账号的appID 必须
+                autoplay: false, //是否自动播放 //其他参数请在开发文档中查看
+            });
+
+            //播放器事件
+
+            //这个是我腾讯云点播播放器的暂停事件,替换成你的
+            player.on("pause", function() {
+                isPause = true; //isPause 就是弹幕播放时用来判断你的视频是否暂停了,暂停就不播放弹幕.，用来实现暂停弹幕不播放的效果的判断值
+            }); //这个是我腾讯云点播播放器的播放事件,替换成你的
+            player.on("play", function() {
+                isPause = false; //isPause 就是弹幕播放时用来判断你的视频是否暂停了,暂停就不播放弹幕.
+                render();
+            });
+            function getreqfullscreen(root) {
+                //获取全屏
+                var root = document.documentElement;
+                return (
+                    root.requestFullscreen ||
+                    root.webkitRequestFullscreen ||
+                    root.mozRequestFullScreen ||
+                    root.msRequestFullscreen
+                );
+            }
+            var fullscreen = getreqfullscreen();
+            document.getElementById("full").οnclick = function() {
+                //全屏按钮点击事件
+                fullscreen.call(document.getElementById("con")); //全屏id为con的元素,即video的父元素
+            }; //这个是我播放时长条改变事件，currentTime就是我的当前播放秒数
+            player.on("timeupdate", function() {
+                currentTime = Math.round(player.currentTime());
+            }); //这个是我的播放器长度条改变触发事件，
+            player.on("seeked", function() {
+                currentTime = Math.round(player.currentTime());
+                console.log(currentTime);
+                reset(); //实现拖动视频条，弹幕也会改变
+            });
+
+            var reset = function() {
+                //重绘弹幕,实现拖动视频条,弹幕也会随之改变
+                context.clearRect(0, 0, canvas.width, canvas.height);
+                for (var i in store) {
+                    var barrage = store[i];
+                    if (currentTime > barrage.time) {
+                        //currentTime为播放器事时间,大于弹幕时间时,重新绘制弹幕,这样拖动视频条,弹幕也会重绘.
+                        console.log("判断出来");
+                        barrage.isShow = false;
+                    } else {
+                        store[i].x = canvas.width;
+                    }
+                }
+            };
+
+            //退出全屏事件
+            function exitFullscreen() {
+                var de = document;
+                if (de.exitFullscreen) {
+                    de.exitFullscreen();
+                } else if (de.mozCancelFullScreen) {
+                    de.mozCancelFullScreen();
+                } else if (de.webkitCancelFullScreen) {
+                    de.webkitCancelFullScreen();
+                }
+            }
+
+            var input = document.getElementById("input");
+            var submitBtn = document.getElementById("submit"); //发送弹幕
+            var status = 1;
+            var status1 = 1;
+            var video = document.getElementById("con");
+            var canvas = document.getElementById("canvasBarrage");
+            var Ba = document.getElementById("videoBarrage");
+            $(document).keyup(function(e) {
+                var key = e.which || e.keyCode;
+                if (key == 27) {
+                    console.log("退出全屏");
+                    exitFullscreen();
+                }
+            });
+            input.addEventListener("input", () => {
+                //判断 弹幕不能空
+                if (input.value.trim()) {
+                    submitBtn.disabled = false;
+                } else {
+                    submitBtn.disabled = true;
+                }
+            });
+            submitBtn.addEventListener("click", (event) => {
+                //发送按钮
+                event.preventDefault(); //把弹幕push进去到data里,data为弹幕组
+                data.push({
+                    value: input.value,
+                    time: currentTime,
+                });
+                input.value = "";
+                submitBtn.disabled = true;
+                console.log(data);
+                render();
+            });
+            var render = function() {
+                context.clearRect(0, 0, canvas.width, canvas.height);
+                drawAll();
+                if (!isPause) {
+                    requestAnimationFrame(render);
+                }
+            };
+            var add = function(obj) {
+                //暴露接口返回add,render
+                store[Object.keys(store).length] = new Barrage(obj);
+            };
+
+            return {
+                add,
+                render,
+            };
+            var barrage = canvasBarrage("#canvasBarrage", data);
+            barrage.render();
+        };
+
+        //弹幕组
+        var data = [
+            {
+                value: "我是第一秒",
+                color: "red",
+                fontSize: 35,
+                time: 1,
+            },
+            {
+                value: "我是第二秒",
+                color: "blue",
+                fontSize: 35,
+                time: 2,
+            },
+            {
+                value: "我是第三秒",
+                color: "yellow",
+                fontSize: 35,
+                time: 3,
+            },
+            {
+                value: "我是第四秒",
+                color: "yellow",
+                fontSize: 35,
+                time: 4,
+            },
+            {
+                value: "我是第五秒",
+                color: "yellow",
+                fontSize: 35,
+                time: 5,
+            },
+            {
+                value: "我是第六秒",
+                color: "yellow",
+                fontSize: 35,
+                time: 6,
+            },
+            {
+                value: "我是第七秒",
+                color: "yellow",
+                fontSize: 35,
+                time: 7,
+            },
+            {
+                value: "我是第八秒",
+                color: "yellow",
+                fontSize: 35,
+                time: 8,
+            },
+        ];
+        canvasBarrage("#canvasBarrage", data);
+    </script>
+</html>
