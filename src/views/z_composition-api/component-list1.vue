@@ -145,4 +145,5 @@ export default defineComponent({
         };
     },
 });
+// https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx35f2b1a2f4ba5ee7&redirect_uri=http://weixin.huihezn.com&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect
 </script>
