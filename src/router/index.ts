@@ -47,6 +47,13 @@ const routes: Array<RouteRecordRaw> = [
         meta: {
             title: "vue3方式",
         },
+        children:[
+            {
+                path:"",
+                name:"vue3Add",
+                component:()=> import("../views/z_composition-api/vue3-add.vue")
+            }
+        ]
     },
     {
         path: "/optionapi",

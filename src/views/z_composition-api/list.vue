@@ -3,6 +3,7 @@
         <componentList1 :title="title" :name="name"></componentList1>
     </keep-alive>
     <componentList2 :msg1="1" :msg2="2" :msg3="3"></componentList2>
+    <router-view></router-view>
 </template>
 <script lang="ts">
 import componentList1 from "./component-list1.vue";
