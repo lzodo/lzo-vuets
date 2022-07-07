@@ -4,6 +4,7 @@
     </keep-alive>
     <componentList2 :msg1="1" :msg2="2" :msg3="3"></componentList2>
     <router-view></router-view>
+    {{ globalprop }}
 </template>
 <script lang="ts">
 import componentList1 from "./component-list1.vue";

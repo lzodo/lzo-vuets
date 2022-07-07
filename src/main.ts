@@ -10,6 +10,10 @@ import "./mock";
 
 const app = createApp(App);
 
+// 应用配置
+app.config.globalProperties.globalprop = 'barxxxxxxx'; // 定义全局属性
+// app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('ion-')
+
 app.use(Vant)
     .use(store)
     .use(router)
