@@ -68,7 +68,8 @@ const home: Module<IHomeState, IGlobalState> = {
         },
         [Types.SET_LESSON_LIST](state, payload: ILessons) {
             console.log(payload)
-            state.lessons.list = [...state.lessons.list, ...payload.list];
+            // state.lessons.list = [...state.lessons.list, ...payload.list];
+            state.lessons.list = state.lessons.list.concat(payload.list);
             state.lessons.hasMore = payload.hasMore;
             state.lessons.offset = state.lessons.offset + payload.list.length;
             console.log(state.lessons,state.lessons.hasMore,state.lessons.offset)
