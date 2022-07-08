@@ -5,17 +5,19 @@
     <componentList2 :msg1="1" :msg2="2" :msg3="3"></componentList2>
     <router-view></router-view>
     {{ globalprop }}
+    <LzoTest></LzoTest>
 </template>
 <script lang="ts">
 import componentList1 from "./component-list1.vue";
 import componentList2 from "./component-list2.vue";
-import Vue, { defineComponent, provide, reactive } from "vue";
+import { defineComponent, provide, reactive } from "vue";
+import LzoTest from "../../components/LzoTest.vue";
 
-const ThemeSymbol = Symbol();
 export default defineComponent({
     components: {
         componentList1,
         componentList2,
+        LzoTest
     },
     data() {
         return {
