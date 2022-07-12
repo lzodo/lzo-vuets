@@ -5,7 +5,7 @@
         <router-link to="/profile">profile</router-link> -->
         <router-view class="view" />
         <van-tabbar route>
-            <van-tabbar-item icon="home-o" to="/">首页</van-tabbar-item>
+            <van-tabbar-item icon="home-o" to="/home">首页</van-tabbar-item>
             <van-tabbar-item icon="search" to="/mine">TS</van-tabbar-item>
             <van-tabbar-item icon="friends-o" to="/profile"
                 >我的</van-tabbar-item

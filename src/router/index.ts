@@ -16,6 +16,10 @@ let Path2 = (resolve: (...modules: any[]) => void) =>
 const routes: Array<RouteRecordRaw> = [
     {
         path: "/",
+        redirect:"/compositionapi"
+    },
+    {
+        path: "/home",
         name: "Home",
         component: Home,
         meta: {
