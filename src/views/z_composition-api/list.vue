@@ -6,18 +6,27 @@
     <router-view></router-view>
     {{ globalprop }}
     <LzoTest></LzoTest>
+    <div class="vst">
+        <V3Style>
+            <div class="slot-inner">
+                slot 插槽 的样式可以在外面直接设置，也可以在组件内部 通过 :slotted() 伪类设置 插槽
+            </div>
+        </V3Style>
+    </div>
 </template>
 <script lang="ts">
 import componentList1 from "./component-list1.vue";
 import componentList2 from "./component-list2.vue";
 import { defineComponent, provide, reactive } from "vue";
 import LzoTest from "../../components/LzoTest.vue";
+import V3Style from "./vue3-style.vue"
 
 export default defineComponent({
     components: {
         componentList1,
         componentList2,
-        LzoTest
+        LzoTest,
+        V3Style
     },
     data() {
         return {
@@ -84,4 +93,14 @@ export default defineComponent({
     },
 });
 </script>
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+    .vst :deep(.v3-style){
+        color:#f00;
+    }
+    // .vst .slot-inner{
+    //     color:rgb(46, 136, 148);
+    // }
+    
+    // slot 里样式可以直接设置
+
+</style>
