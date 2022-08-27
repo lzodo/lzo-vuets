@@ -24,7 +24,7 @@ const state: IHomeState = {
 const home: Module<IHomeState, IGlobalState> = {
     namespaced: true,
     state,
-    actions: {
+    actions: { // 外面可以用 dispatch 触发 action 的方法
         async [Types.SET_SLIDER_LIST]({ commit }) {
             let sliders = await getSliders<ISliders>();
             commit(Types.SET_SLIDER_LIST, sliders);
@@ -52,7 +52,8 @@ const home: Module<IHomeState, IGlobalState> = {
     },
     //@ mutation 必须是同步的
     //@ 只有mutation才能正真改变VUEX stroe中的state
-    //@ Action可以异步提交 Action 提交的是 mutation，而不是直接变更状态。
+    //@ Action可以异步提交, Action 提交的是 mutation，而不是直接变更状态。
+    //外面可以 引入 mapMutations,methods 定义 increment，通过 this.increment 映射为 `this.$store.commit('increment')`
     mutations: {
         [Types.SET_CATEGORY](state, payload: CATEGORY_TYPES) {
             //home状态 ,新的payload数据要 CATEGORY_TYPES 中存在的
