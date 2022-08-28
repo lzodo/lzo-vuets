@@ -24,7 +24,7 @@ const state: IHomeState = {
 const home: Module<IHomeState, IGlobalState> = {
     namespaced: true,
     state,
-    actions: { // 外面可以用 dispatch 触发 action 的方法
+    actions: { // 外面可以用 store.dispatch 触发 action 的方法
         async [Types.SET_SLIDER_LIST]({ commit }) {
             let sliders = await getSliders<ISliders>();
             commit(Types.SET_SLIDER_LIST, sliders);
